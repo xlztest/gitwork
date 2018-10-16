@@ -128,6 +128,7 @@ public class sendController {
         if(user.equals("aa")){
             throw  new UserNoExistException("用户不存在！");
         }
+        userService.getfromid();
         return "helloword";
     }
 
