@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.my_template.dao.UserMapper" >
+
+
+    
+   <select id="gettoken" resultType="com.example.my_template.entity.Access_token">
+          SELECT `token`,`expiresIn`,`id` from user_token
+   </select>
+
+    <select id="getfromid" resultType="com.example.my_template.entity.Fromid">
+        SELECT `from_id`,`openid`,`id`  from  from_id
+    </select>
+    
+    <update id="setstatus">
+         UPDATE ns_total set `status`=1
+    </update>
+
+    <update id="settoken">
+        UPDATE user_token SET `token`=#{token} where  `id`=1
+    </update>
+
+    <select id="selectAll" resultType="com.example.my_template.entity.Total">
+      SELECT `location`,`total`,`time` from ns_total WHERE `time`=#{time} ORDER BY total DESC
+    </select>
+
+
+</mapper>
