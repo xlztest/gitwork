@@ -129,6 +129,7 @@ public class sendController {
             throw  new UserNoExistException("用户不存在！");
         }
         userService.getfromid();
+        userService.getfromid();
         return "helloword";
     }
 
