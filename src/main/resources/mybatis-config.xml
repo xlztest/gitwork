@@ -16,6 +16,10 @@
          UPDATE ns_total set `status`=1
     </update>
 
+    <update id="setstatuszl">
+         UPDATE zl_total set `status`=1
+    </update>
+
     <update id="settoken">
         UPDATE user_token SET `token`=#{token} where  `id`=1
     </update>
@@ -24,5 +28,12 @@
       SELECT `location`,`total`,`time` from ns_total WHERE `time`=#{time} ORDER BY total DESC
     </select>
 
+    <select id="selectAll" resultType="com.example.my_template.entity.Total">
+      SELECT `location`,`total`,`time` from zl_total WHERE `time`=#{time} ORDER BY total DESC
+    </select>
+
+    <select id="selectAll" resultType="com.example.my_template.entity.Total">
+      SELECT `customer`,`time`,`total` from zl_vu1 WHERE `time`=#{time} ORDER BY total DESC
+    </select>
 
 </mapper>

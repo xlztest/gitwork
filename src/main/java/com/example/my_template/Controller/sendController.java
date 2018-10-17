@@ -104,6 +104,17 @@ public class sendController {
 
 }
 
+
+    @Scheduled(cron="0 0 0 * * ?")
+    public void setstatuszl(){
+
+        userService.setstatuszl();
+
+
+    }
+
+
+
    /* @Scheduled(cron="0 0 19 * * ?")
     public void settoken() throws IOException {
         //小程序appid
