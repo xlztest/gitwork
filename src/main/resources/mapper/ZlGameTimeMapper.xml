@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.my_template.dao.ZlGameTimeMapper" >
+  <resultMap id="BaseResultMap" type="com.example.my_template.entity.ZlGameTime" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="game_name" property="gameName" jdbcType="VARCHAR" />
+    <result column="total" property="total" jdbcType="INTEGER" />
+    <result column="time" property="time" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, game_name, total, time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zl_game_time
+    where game_name = #{game_name} AND status=1
+  </select>
+
+  <select id="selectTime" resultType="com.example.my_template.entity.ZlGameTime">
+    select
+    <include refid="Base_Column_List" />
+    from zl_game_time
+    where time=#{time}
+  </select>
+
+
+  <insert id="insert">
+    insert into zl_game_time(game_name,time)
+    values (#{game_name,jdbcType=VARCHAR},#{time,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey">
+    update zl_game_time
+   set total = total+1
+    where game_name = #{game_name} AND status=1
+  </update>
+
+  <update id="updateStatus">
+    update zl_game_time
+    set status=0
+  </update>
+
+</mapper>

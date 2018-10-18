@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.my_template.dao.ZlGameMapper" >
+  <resultMap id="BaseResultMap" type="com.example.my_template.entity.ZlGame" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="game_name" property="gameName" jdbcType="VARCHAR" />
+    <result column="total" property="total" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, game_name, total
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.example.my_template.entity.ZlGame" >
+    select 
+    <include refid="Base_Column_List" />
+    from zl_game
+    where game_name = #{game_name}
+  </select>
+  
+  <select id="selectAllclick" resultType="com.example.my_template.entity.ZlGame">
+    select
+    <include refid="Base_Column_List" />
+    from zl_game
+  </select>
+
+  
+
+  <insert id="insert">
+    insert into zl_game(game_name)
+    values (#{game_name})
+  </insert>
+
+  <update id="updateByPrimaryKey">
+    update zl_game
+    set total = total+1
+    where game_name = #{game_name}
+  </update>
+</mapper>
