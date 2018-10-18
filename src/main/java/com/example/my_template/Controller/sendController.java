@@ -2,6 +2,7 @@ package com.example.my_template.Controller;
 
 import com.alibaba.fastjson.JSON;
 import com.example.my_template.Service.UserService;
+import com.example.my_template.Service.ZlGameTimeService;
 import com.example.my_template.entity.Access_token;
 import com.example.my_template.entity.Fromid;
 import com.example.my_template.entity.Muban;
@@ -34,6 +35,9 @@ public class sendController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ZlGameTimeService zlGameTimeService;
 
     //@Scheduled(cron="0 0 20 * * ?")
     @Scheduled(cron="0 0 20 * * ?")
@@ -96,7 +100,7 @@ public class sendController {
         }
     }
 
-    @Scheduled(cron="0 0 0 * * ?")
+    @Scheduled(cron="0 0 0 * * ?")//南山状态
     public void setstatus(){
 
         userService.setstatus();
@@ -105,7 +109,7 @@ public class sendController {
 }
 
 
-    @Scheduled(cron="0 0 0 * * ?")
+    @Scheduled(cron="0 0 0 * * ?")//战投状态
     public void setstatuszl(){
 
         userService.setstatuszl();
@@ -113,25 +117,15 @@ public class sendController {
 
     }
 
+    @Scheduled(cron="0 0 0 * * ?")//战投游戏点击状态
+    public void setgamezl(){
+
+        zlGameTimeService.updateStatus();
 
 
-   /* @Scheduled(cron="0 0 19 * * ?")
-    public void settoken() throws IOException {
-        //小程序appid
-         String APPID = "wx151c5e6fee571012";
-        //小程序密码
-         String APPSECRET = "bfcba22c61e2e0d55a9dba86a0629f7f";
-        //获取access_token
-         String ACCESS_TOKEN="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
-        String url=ACCESS_TOKEN.replace("APPID", APPID).replace("APPSECRET", APPSECRET);
-        OkHttpUtil okHttpUtil =new OkHttpUtil();
-        Response response= okHttpUtil.get(url);
-        String data =  response.body().string();
-        JSONObject mJSONObject = JSONObject.fromObject(data);
-        String access_token= mJSONObject.getString("access_token");
-        userService.settoken(access_token);
-        log.info(access_token);
-    }*/
+    }
+
+
 
     @ResponseBody
     @GetMapping("/hello")

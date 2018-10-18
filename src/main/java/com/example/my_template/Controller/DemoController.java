@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.UnsupportedEncodingException;
+
 @Slf4j
 @RestController
 public class DemoController {
@@ -19,14 +21,15 @@ public class DemoController {
 
 
     @RequestMapping(value = "/test",method = RequestMethod.GET)
-    public void demoTest(){
+    public void demoTest() throws UnsupportedEncodingException {
         Total total=new Total();
         total.setTotal(11);
         total.setTime("aa");
         total.setLocation("xx");
         String demo=JSON.toJSONString(total);
-        redisService.set("测试",demo);
-        log.info((String) redisService.get("测试"));
+        demo=new String(demo.getBytes("gbk"),"utf-8");
+        //redisService.set("aa",demo);
+        log.info((String) redisService.get("aa"));
     }
 
 }

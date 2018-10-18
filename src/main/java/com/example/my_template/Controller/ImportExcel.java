@@ -1,8 +1,10 @@
 package com.example.my_template.Controller;
 
 import com.example.my_template.Service.UserService;
+import com.example.my_template.Service.ZlGameTimeService;
 import com.example.my_template.entity.Total;
 import com.example.my_template.entity.Uv;
+import com.example.my_template.entity.ZlGameTime;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.apache.poi.hssf.usermodel.*;
@@ -26,6 +28,8 @@ public class ImportExcel extends BaseController{
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ZlGameTimeService zlGameTimeService;
 
     @RequestMapping(value = "/excelDownloads", method = RequestMethod.GET)
     public void downloadAllClassmate(HttpServletResponse response, @Param("time")String time) throws IOException {
@@ -153,14 +157,55 @@ public class ImportExcel extends BaseController{
         workbook.write(response.getOutputStream());
     }
 
+    @RequestMapping(value = "/excelDownloadsZLCL", method = RequestMethod.GET)
+    public void downloadZLGame(HttpServletResponse response, @Param("time")String time) throws IOException {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        HSSFSheet sheet = workbook.createSheet("信息表");
+        if(time==null){
+            return;
+        }
+        List<ZlGameTime> classmateList = zlGameTimeService.selectTime(time);
 
+        String fileName = "Total"  + ".xls";//设置要导出的文件的名字
+        //新增数据行，并且设置单元格数据
 
+        int rowNum = 1;
 
+        String[] headers = { "游戏名称", "点击量", "日期"};
+        //headers表示excel表中第一行的表头
 
-    @RequestMapping(value = "/aaa", method = RequestMethod.GET)
-   public  String test(){
-        return "sadada";
+        HSSFRow row = sheet.createRow(0);
+        //在excel表中添加表头
+
+        for(int i=0;i<headers.length;i++){
+            HSSFCell cell = row.createCell(i);
+            HSSFRichTextString text = new HSSFRichTextString(headers[i]);
+            cell.setCellValue(text);
+        }
+
+        //在表中存放查询到的数据放入对应的列
+        for (ZlGameTime zlGameTime : classmateList) {
+            HSSFRow row1 = sheet.createRow(rowNum);
+            row1.createCell(0).setCellValue(zlGameTime.getGameName());
+            row1.createCell(1).setCellValue(zlGameTime.getTotal());
+            row1.createCell(2).setCellValue(zlGameTime.getTime());
+            rowNum++;
+        }
+
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-disposition", "attachment;filename=" + fileName);
+        response.flushBuffer();
+        workbook.write(response.getOutputStream());
     }
+
+
+
+
+
+
+
+
 
 
 
